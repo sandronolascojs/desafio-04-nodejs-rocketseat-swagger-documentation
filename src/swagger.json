@@ -1,0 +1,271 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Users App Api",
+    "version": "1.0.0",
+    "description": "api example rocketseat swagger challenge",
+    "contact": {
+      "name": "devdev",
+      "email": "email@example.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "description": "Returns a list of users",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "user id of admin user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of users.",
+            "content": {
+              "application/json": {
+                "id": {
+                  "type": "uuid",
+                  "format": "uuid",
+                  "description": "The id of the user."
+                },
+                "admin": {
+                  "type": "boolean",
+                  "description": "The admin of the user."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email of the user."
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date of the user."
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date of the user."
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User does not exists",
+          "content": {
+            "application/json": {
+              "error": {
+                "type": "string",
+                "description": "User does not exists error or user is not admin",
+                "example": {
+                  "error": "User does not exists or is not admin"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "Create a user",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the user."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "The email of the user."
+                  }
+                }
+              },
+              "example": {
+                "name": "devdev",
+                "email": "email@example.com"
+              }
+            },
+            "required": true,
+            "description": "User object that needs to be added to the store",
+            "example": {
+              "name": "devdev",
+              "email": "email@example.com"
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email of the user."
+                },
+                "admin": {
+                  "type": "boolean",
+                  "description": "The admin of the user."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Show user profile by id",
+        "description": "Returns",
+        "operationId": "showUserProfile",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile",
+            "content": {
+              "application/json": {
+                "id": {
+                  "type": "uuid",
+                  "format": "uuid",
+                  "description": "The id of the user."
+                },
+                "admin": {
+                  "type": "boolean",
+                  "description": "The admin of the user."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email of the user."
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User does not exists",
+          "content": {
+            "application/json": {
+              "error": {
+                "type": "string",
+                "description": "User does not exists error",
+                "example": {
+                  "error": "User does not exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "turn user as admin by user id",
+        "description": "Returns",
+        "operationId": "turnUserAdminById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user with admin true",
+            "content": {
+              "application/json": {
+                "admin": {
+                  "type": "boolean",
+                  "description": "The admin of the user."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email of the user."
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User does not exists",
+          "content": {
+            "application/json": {
+              "error": {
+                "type": "string",
+                "description": "User does not exists error",
+                "example": {
+                  "error": "User does not exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
